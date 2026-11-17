@@ -14,6 +14,45 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Prepare launcher icons
+        run: |
+          python3 -m pip install --user Pillow
+          python3 - <<'PY'
+          from PIL import Image
+          from pathlib import Path
+          src = Path("app/src/main/res/mipmap-xxxhdpi/ic_launcher.png")
+          image = Image.open(src).convert("RGBA")
+          densities = {
+              "mipmap-mdpi": 48,
+              "mipmap-hdpi": 72,
+              "mipmap-xhdpi": 96,
+              "mipmap-xxhdpi": 144,
+              "mipmap-xxxhdpi": 192,
+          }
+          res = Path("app/src/main/res")
+          for folder, size in densities.items():
+              target = res / folder / "ic_launcher.png"
+              target.parent.mkdir(parents=True, exist_ok=True)
+              image.resize((size, size), Image.Resampling.LANCZOS).save(target)
+          foreground = res / "drawable-nodpi" / "ic_launcher_foreground.png"
+          foreground.parent.mkdir(parents=True, exist_ok=True)
+          image.save(foreground)
+          PY
+          mkdir -p app/src/main/res/mipmap-anydpi-v26
+          cat > app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml <<'XML'
+          <?xml version="1.0" encoding="utf-8"?>
+          <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+              <background android:drawable="@color/ic_launcher_background" />
+              <foreground android:drawable="@drawable/ic_launcher_foreground" />
+          </adaptive-icon>
+          XML
+          mkdir -p app/src/main/res/values
+          cat > app/src/main/res/values/ic_launcher_background.xml <<'XML'
+          <?xml version="1.0" encoding="utf-8"?>
+          <resources>
+              <color name="ic_launcher_background">#020817</color>
+          </resources>
+          XML
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
