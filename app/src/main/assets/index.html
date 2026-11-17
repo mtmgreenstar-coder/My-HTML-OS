@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090d18">
+<title>سیستم عامل HTML</title>
+<style>
+:root{--bg:#080b14;--glass:rgba(255,255,255,.085);--glass2:rgba(255,255,255,.13);--line:rgba(255,255,255,.14);--text:#f7f8ff;--muted:#aeb6ca;--accent:#9b8cff;--cyan:#6ee7f9;--danger:#ff6b86}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Tahoma,Arial,sans-serif;color:var(--text);background:#080b14}button,input{font:inherit}button{cursor:pointer;color:inherit}
+body{min-height:100dvh;display:grid;place-items:center;padding:16px;background:radial-gradient(ellipse at 18% 12%,#263e70 0,transparent 34%),radial-gradient(ellipse at 85% 80%,#4c2769 0,transparent 36%),#070a12}
+.phone{width:min(100%,460px);height:min(940px,calc(100dvh - 32px));min-height:620px;position:relative;overflow:hidden;border:8px solid #252b3b;border-radius:48px;background:#10182b;box-shadow:0 35px 100px #000b,0 0 0 1px #ffffff16;isolation:isolate}
+.wallpaper{position:absolute;inset:0;background:radial-gradient(ellipse at 15% 20%,#687cf080,transparent 38%),radial-gradient(ellipse at 85% 43%,#b06ce080,transparent 34%),radial-gradient(ellipse at 48% 100%,#287f9d70,transparent 45%),linear-gradient(145deg,#152849,#10162a 55%,#17132d);z-index:-2}
+.wallpaper:before,.wallpaper:after{content:"";position:absolute;border-radius:50%;filter:blur(2px);border:1px solid #ffffff12}.wallpaper:before{width:370px;height:370px;top:18%;right:-210px;box-shadow:0 0 90px #9c82ff26}.wallpaper:after{width:280px;height:280px;bottom:5%;left:-180px;box-shadow:0 0 90px #52d7ed26}
+.status{height:38px;padding:11px 23px 0;display:flex;justify-content:space-between;align-items:center;font-size:11px;direction:ltr;color:#fff;position:relative;z-index:3}.status .sys{direction:rtl;letter-spacing:2px}
+.screen{height:calc(100% - 38px);padding:14px 20px 12px;display:flex;flex-direction:column;position:relative}
+.head{display:flex;justify-content:space-between;align-items:center;margin:2px 0 18px}.brand small{display:block;color:#d4d9ed;font-size:10px;letter-spacing:1.5px;margin-bottom:7px}.brand strong{font-size:21px;letter-spacing:-.5px}.brand strong em{font-style:normal;color:#b9adff}.head-actions{display:flex;gap:8px}.circle{width:40px;height:40px;border:1px solid var(--line);border-radius:15px;background:var(--glass);backdrop-filter:blur(18px);font-size:17px;display:grid;place-items:center}
+.clock-card{border:1px solid #ffffff20;border-radius:25px;padding:18px 18px 18px;min-height:112px;background:linear-gradient(120deg,#ffffff24,#ffffff0c);backdrop-filter:blur(20px);box-shadow:inset 0 1px #ffffff18,0 15px 35px #0002;margin-bottom:19px;position:relative;overflow:hidden}
+.clock-card:after{content:"";position:absolute;width:140px;height:140px;border-radius:50%;background:#a89aff20;filter:blur(30px);left:-35px;top:-55px;z-index:0;pointer-events:none}
+.clock-row{display:flex;justify-content:space-between;align-items:center;gap:12px;position:relative;z-index:2;min-height:62px}.clock-row>div:first-child{min-width:0;flex:1}.time{font-size:39px;font-weight:700;letter-spacing:1px;line-height:1.2;text-shadow:0 2px 12px #0008}.date{display:block;font-size:12px;line-height:1.8;font-weight:600;color:#fff;margin-top:8px;white-space:normal;overflow-wrap:anywhere;text-shadow:0 2px 8px #000b}.weather{position:relative;z-index:2;flex:none;font-size:25px;text-align:center;min-width:88px;padding:9px 10px;border:1px solid #ffffff24;border-radius:16px;background:#11172a55;color:#fff;text-shadow:0 2px 8px #0008}.weather small{display:block;font-size:10px;line-height:1.7;color:#fff;margin-top:5px;font-weight:600;text-shadow:0 2px 7px #000b}
+.searchbar{height:45px;border:1px solid var(--line);border-radius:16px;background:#ffffff12;display:flex;align-items:center;gap:10px;padding:0 14px;margin-bottom:17px;backdrop-filter:blur(15px)}.searchbar span{font-size:16px;color:#d7d9e7}.searchbar input{border:0;outline:0;background:transparent;color:white;min-width:0;width:100%;font-size:12px}.searchbar input::placeholder{color:#c0c5d5}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:0 2px 13px}.section-head strong{font-size:13px}.section-head small{font-size:10px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:19px 8px;align-content:start;overflow:auto;scrollbar-width:none;padding:3px 0 12px}.grid::-webkit-scrollbar{display:none}
+.app{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0;padding:0}.app-icon{width:61px;height:61px;border:1px solid #ffffff35;border-radius:20px;background:linear-gradient(145deg,#ffffff2a,#ffffff0c);box-shadow:0 9px 22px #0003,inset 0 1px #ffffff24;display:grid;place-items:center;font-size:28px;overflow:hidden;transition:transform .18s}.app:active .app-icon{transform:scale(.92)}.app-icon img{width:100%;height:100%;object-fit:cover}.app-name{font-size:10px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 2px 6px #000b}.add-app .app-icon{border:1px dashed #d8d0ff9c;background:#a99aff20;color:#e6e1ff;font-size:26px}.empty{grid-column:1/-1;text-align:center;padding:24px 14px 18px;border:1px dashed #ffffff42;border-radius:22px;background:#ffffff0b;color:#e4e8f5}.empty .big{font-size:34px;margin-bottom:9px}.empty strong{display:block;font-size:13px;margin-bottom:7px}.empty p{font-size:10px;color:#c1c8db;line-height:1.9;margin:0 auto 13px;max-width:250px}.empty button{border:0;border-radius:13px;background:#b4a8ff;color:#17122e;padding:10px 16px;font-size:11px;font-weight:bold}
+.spacer{flex:1;min-height:10px}.dock{border:1px solid #ffffff27;background:#ffffff1b;backdrop-filter:blur(24px);border-radius:23px;padding:10px 12px;display:flex;align-items:center;justify-content:space-around;box-shadow:0 12px 28px #0003}.dock button{width:42px;height:40px;border:0;border-radius:14px;background:transparent;font-size:20px}.dock button:active{background:#ffffff20}.homehint{width:104px;height:4px;border-radius:9px;background:#ffffffb8;margin:12px auto 0}
+.overlay{position:absolute;inset:0;background:#080b14b8;backdrop-filter:blur(15px);z-index:8;display:none;align-items:flex-end}.sheet{width:100%;max-height:91%;overflow:auto;border-radius:29px 29px 0 0;border:1px solid var(--line);border-bottom:0;background:linear-gradient(160deg,#202944,#111827);padding:21px 19px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -20px 60px #0005}.sheet-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:17px}.sheet h2{font-size:17px;margin:0}.close{border:0;width:33px;height:33px;border-radius:12px;background:#ffffff15;font-size:18px}
+.field{display:block;margin:12px 0;color:#c7cde0;font-size:11px}.field input,.field select{width:100%;margin-top:7px;padding:12px 13px;border:1px solid #ffffff20;border-radius:13px;background:#0d1424;color:#fff;outline:none;font:inherit}.field input:focus{border-color:#a99bff}.row{display:flex;gap:9px}.row .field{flex:1;min-width:0}.hint{font-size:10px;line-height:1.9;color:#aeb8cf;margin:12px 0}.actions{display:flex;gap:9px;margin-top:17px}.btn{flex:1;border:0;border-radius:13px;padding:12px;background:linear-gradient(135deg,#b8aaff,#8e80e9);color:#15112a;font-weight:bold;font-size:11px}.btn.secondary{background:#ffffff16;color:#fff}.btn.danger{background:#6d293d;color:#fff}
+.viewer{position:absolute;inset:0;background:#fff;z-index:15;display:none}.viewer iframe{width:100%;height:100%;border:0;background:#fff}.viewerbar{position:absolute;top:9px;right:10px;z-index:17;display:flex;gap:7px}.viewerbar button{width:38px;height:38px;border:1px solid #ffffff25;border-radius:50%;background:#10131dcc;color:#fff;font-size:18px;backdrop-filter:blur(12px)}
+.drawer{position:absolute;inset:0;z-index:7;background:linear-gradient(160deg,#151e34f7,#0b1020fa);backdrop-filter:blur(25px);display:none;padding:54px 18px 20px;overflow:auto}.drawer h2{font-size:19px;margin:0 0 17px}.drawer .grid{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:18px}.drawer-close{position:absolute;top:10px;left:14px}
+
+.app-manage-card{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid #ffffff20;border-radius:17px;background:#ffffff0c;margin-bottom:15px}
+.app-manage-icon{width:52px;height:52px;border-radius:16px;overflow:hidden;display:grid;place-items:center;background:#ffffff18;font-size:25px;flex:none}
+.app-manage-icon img{width:100%;height:100%;object-fit:cover}
+.app-manage-meta{min-width:0}.app-manage-meta strong{display:block;font-size:13px;overflow-wrap:anywhere}.app-manage-meta small{display:block;color:#aeb8cf;font-size:10px;margin-top:5px}
+.field input{direction:rtl}
+.toast{position:absolute;z-index:30;bottom:82px;left:50%;transform:translateX(-50%);background:#171d2ddd;border:1px solid #ffffff20;padding:10px 15px;border-radius:14px;font-size:10px;white-space:nowrap;display:none;box-shadow:0 8px 25px #0005}
+@media(max-width:370px){.screen{padding-inline:14px}.app-icon{width:55px;height:55px;border-radius:18px}.grid{gap:15px 5px}.time{font-size:34px}}
+@media(min-width:700px){.phone{height:min(940px,calc(100dvh - 32px))}}
+</style>
+</head>
+<body>
+<div class="phone">
+ <div class="wallpaper"></div>
+ <div class="status"><span id="clockMini">09:41</span><span class="sys">◉　▮▮　▰</span></div>
+ <main class="screen">
+  <header class="head"><div class="brand"><small>YOUR PERSONAL WEB DEVICE</small><strong>سیستم عامل <em>HTML</em></strong></div><div class="head-actions"><button class="circle" id="manageBtn" title="تنظیمات">⚙</button><button class="circle" id="drawerBtn" title="همه اپ‌ها">⠿</button></div></header>
+  <section class="clock-card"><div class="clock-row"><div><div class="time" id="bigClock">09:41</div><div class="date" id="dateText">امروز</div></div><div class="weather">✦<small>فضای شخصی تو</small></div></div></section>
+  <label class="searchbar"><span>⌕</span><input id="search" placeholder="جست‌وجوی اپلیکیشن..." autocomplete="off"><span>⌘</span></label>
+  <div class="section-head"><strong>اپلیکیشن‌های من</strong><small id="appCount">۰ اپ نصب شده</small></div>
+  <section class="grid" id="homeGrid"></section>
+  <div class="spacer"></div>
+  <nav class="dock"><button id="homeBtn" title="خانه">⌂</button><button id="addDock" title="نصب اپ">＋</button><button id="backupOut" title="خروجی بکاپ">⇧</button><button id="backupIn" title="ورود بکاپ">⇩</button></nav>
+  <div class="homehint"></div>
+ </main>
+
+ <section class="drawer" id="drawer"><button class="circle drawer-close" id="drawerClose">×</button><h2>همه اپلیکیشن‌ها</h2><label class="searchbar"><span>⌕</span><input id="drawerSearch" placeholder="جست‌وجو..."></label><div class="grid" id="drawerGrid"></div></section>
+
+ <div class="overlay" id="installOverlay"><div class="sheet">
+  <div class="sheet-top"><h2 id="installTitle">نصب اپلیکیشن جدید</h2><button class="close" data-close="installOverlay">×</button></div>
+  <label class="field">نام اپلیکیشن<input id="appName" maxlength="36" placeholder="مثلاً ماشین حساب"></label>
+  <label class="field">فایل HTML اپلیکیشن<input id="appFile" type="file" accept=".html,.htm,text/html"></label>
+  <div class="row"><label class="field">آیکون تصویری (اختیاری)<input id="appIcon" type="file" accept="image/*"></label><label class="field">ایموجی آیکون<input id="appEmoji" maxlength="5" value="📱"></label></div>
+  <p class="hint">فایل HTML داخل خود سیستم ذخیره می‌شود؛ برای اجرای اپ به فایل جداگانه نیاز نیست. اگر اپ چند فایل وابسته دارد، باید نسخه تک‌فایلی یا HTML خودبسنده آن را انتخاب کنی.</p>
+  <div class="actions"><button class="btn" id="installSave">نصب اپ</button><button class="btn secondary" data-close="installOverlay">انصراف</button></div>
+ </div></div>
+
+ <div class="overlay" id="settingsOverlay"><div class="sheet">
+  <div class="sheet-top"><h2>مدیریت سیستم</h2><button class="close" data-close="settingsOverlay">×</button></div>
+  <div class="hint">سیستم عامل HTML · نسخه ۲.۲<br>اپلیکیشن‌ها پیش‌فرض نصب نیستند؛ صفحه خانه را با اپ‌های دلخواهت بساز.</div>
+  <div class="actions"><button class="btn" id="settingsInstall">＋ نصب اپلیکیشن</button><button class="btn secondary" id="settingsDrawer">▦ مدیریت اپ‌ها</button></div>
+  <div class="actions"><button class="btn secondary" id="settingsExport">⇧ خروجی کامل</button><button class="btn secondary" id="settingsImport">⇩ بازیابی</button></div>
+  <div class="actions"><button class="btn danger" id="clearAll">پاک‌سازی همه اپ‌ها</button></div>
+  <p class="hint">اطلاعات اپ‌ها در IndexedDB و تنظیمات ظاهری در LocalStorage همین مرورگر ذخیره می‌شود. برای انتقال به دستگاه دیگر، خروجی بکاپ بگیر.</p>
+ </div></div>
+
+
+ <div class="overlay" id="appManageOverlay"><div class="sheet">
+  <div class="sheet-top"><h2>مدیریت اپلیکیشن</h2><button class="close" data-close="appManageOverlay">×</button></div>
+  <div class="app-manage-card"><div class="app-manage-icon" id="manageIcon">📱</div><div class="app-manage-meta"><strong id="manageAppTitle">نام اپ</strong><small>مدیریت اپ نصب‌شده</small></div></div>
+  <label class="field">تغییر نام اپلیکیشن<input id="manageNameInput" maxlength="36" placeholder="نام جدید اپ"></label>
+  <div class="actions"><button class="btn" id="renameAppBtn">ذخیره نام جدید</button><button class="btn secondary" data-close="appManageOverlay">انصراف</button></div>
+  <div class="actions"><button class="btn danger" id="deleteAppBtn">حذف این اپلیکیشن</button></div>
+  <p class="hint">برای باز کردن این بخش، روی آیکون اپ چند لحظه لمس طولانی کن یا در کامپیوتر کلیک راست کن.</p>
+ </div></div>
+ <div class="overlay" id="deleteConfirmOverlay"><div class="sheet">
+  <div class="sheet-top"><h2>حذف اپلیکیشن</h2><button class="close" data-close="deleteConfirmOverlay">×</button></div>
+  <p class="hint" id="deleteConfirmText">از حذف این اپ مطمئنی؟</p>
+  <div class="actions"><button class="btn danger" id="confirmDeleteBtn">بله، حذف شود</button><button class="btn secondary" data-close="deleteConfirmOverlay">لغو</button></div>
+ </div></div>
+ <div class="viewer" id="viewer"><iframe id="appFrame" allow="autoplay; fullscreen; clipboard-read; clipboard-write; camera; microphone"></iframe><div class="viewerbar"><button id="appBack" title="بازگشت">⌄</button><button id="appReload" title="بارگذاری مجدد">↻</button></div></div>
+ <div class="toast" id="toast"></div><input id="backupFile" type="file" accept=".json,application/json" hidden>
+</div>
+<script>
+(()=> {
+'use strict';
+const META_KEY='html_os_apps_v2', PREF_KEY='html_os_prefs_v2', DB_NAME='HTML_OS_APP_STORE', STORE='appFiles';
+let apps=[], db=null, editId=null, activeApp=null, toastTimer=null;
+const $=id=>document.getElementById(id);
+function notify(msg){const t=$('toast');t.textContent=msg;t.style.display='block';clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.style.display='none',2600)}
+function loadMeta(){try{const v=JSON.parse(localStorage.getItem(META_KEY)||'[]');return Array.isArray(v)?v:[]}catch(e){return []}}
+function saveMeta(){try{localStorage.setItem(META_KEY,JSON.stringify(apps.map(({html,...meta})=>meta)));return true}catch(e){notify('فضای LocalStorage کافی نیست');return false}}
+function openDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,1);req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains(STORE))d.createObjectStore(STORE,{keyPath:'id'})};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+function dbPut(record){return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(record);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error)})}
+function dbGet(id){return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readonly'),r=tx.objectStore(STORE).get(id);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
+function dbDelete(id){return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).delete(id);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error)})}
+function iconMarkup(a){return a.iconData?`<img alt="" src="${a.iconData}">`:escapeHtml(a.emoji||'📱')}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function makeAppButton(a){const b=document.createElement('button');b.className='app';b.innerHTML=`<span class="app-icon">${iconMarkup(a)}</span><span class="app-name">${escapeHtml(a.name)}</span>`;b.title=a.name;b.onclick=()=>launch(a);b.oncontextmenu=e=>{e.preventDefault();manageApp(a)};let hold; b.addEventListener('touchstart',()=>{hold=setTimeout(()=>manageApp(a),750)},{passive:true});['touchend','touchmove','touchcancel'].forEach(ev=>b.addEventListener(ev,()=>clearTimeout(hold),{passive:true}));return b}
+function drawGrid(target,filter=''){target.innerHTML='';const found=apps.filter(a=>a.name.toLowerCase().includes(filter.toLowerCase()));found.forEach(a=>target.appendChild(makeAppButton(a)));if(target.id==='homeGrid'){const add=document.createElement('button');add.className='app add-app';add.innerHTML='<span class="app-icon">＋</span><span class="app-name">نصب اپ</span>';add.onclick=openInstall;target.appendChild(add);$('appCount').textContent=new Intl.NumberFormat('fa-IR').format(apps.length)+' اپ نصب شده';if(!apps.length){const empty=document.createElement('div');empty.className='empty';empty.innerHTML='<div class="big">✧</div><strong>خانه‌ات هنوز خالیه!</strong><p>هیچ اپ پیش‌فرضی نصب نیست. اولین اپلیکیشن HTML خودت رو نصب کن و صفحه خانه‌ات رو بساز.</p><button id="firstInstall">＋ نصب اولین اپ</button>';target.prepend(empty);$('firstInstall').onclick=openInstall}}else if(!found.length){const e=document.createElement('div');e.className='empty';e.innerHTML='<div class="big">⌕</div><strong>اپی پیدا نشد</strong><p>نام دیگری را جست‌وجو کن یا یک اپ جدید نصب کن.</p>';target.appendChild(e)}}
+function render(){drawGrid($('homeGrid'),$('search').value);drawGrid($('drawerGrid'),$('drawerSearch').value)}
+function openInstall(){editId=null;$('installTitle').textContent='نصب اپلیکیشن جدید';$('appName').value='';$('appFile').value='';$('appIcon').value='';$('appEmoji').value='📱';$('installOverlay').style.display='flex'}
+function closeOverlay(id){$(id).style.display='none'}
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeOverlay(b.dataset.close));
+async function launch(a){try{const record=await dbGet(a.id);if(!record||!record.html){notify('فایل اپ در حافظه پیدا نشد');return}activeApp=a;$('appFrame').src='about:blank';$('appFrame').srcdoc=record.html;$('viewer').style.display='block'}catch(e){notify('باز کردن اپ با خطا روبه‌رو شد')}}
+function closeApp(){$('viewer').style.display='none';$('appFrame').src='about:blank';$('appFrame').srcdoc='';activeApp=null}
+$('appBack').onclick=closeApp;$('appReload').onclick=()=>{if(activeApp)launch(activeApp)};
+function openDrawer(){$('drawer').style.display='block';$('drawerSearch').value='';render()}
+let managingAppId=null;
+function manageApp(a){
+ managingAppId=a.id;
+ $('manageAppTitle').textContent=a.name;
+ $('manageNameInput').value=a.name;
+ $('manageIcon').innerHTML=a.iconData?'<img alt="" src="'+a.iconData+'">':escapeHtml(a.emoji||'📱');
+ $('appManageOverlay').style.display='flex';
+}
+$('renameAppBtn').onclick=()=>{
+ const a=apps.find(x=>x.id===managingAppId),name=$('manageNameInput').value.trim();
+ if(!a||!name){notify('یک نام معتبر وارد کن');return}
+ a.name=name;saveMeta();render();closeOverlay('appManageOverlay');notify('نام اپ تغییر کرد');
+};
+$('deleteAppBtn').onclick=()=>{
+ const a=apps.find(x=>x.id===managingAppId);if(!a)return;
+ $('deleteConfirmText').textContent='اپلیکیشن «'+a.name+'» به‌همراه فایل ذخیره‌شده‌اش برای همیشه از این سیستم حذف می‌شود. ادامه می‌دهی؟';
+ closeOverlay('appManageOverlay');$('deleteConfirmOverlay').style.display='flex';
+};
+$('confirmDeleteBtn').onclick=async()=>{
+ if(managingAppId)await removeApp(managingAppId);
+ managingAppId=null;closeOverlay('deleteConfirmOverlay');
+};
+async function removeApp(id){apps=apps.filter(a=>a.id!==id);await dbDelete(id);saveMeta();render();notify('اپلیکیشن با موفقیت حذف شد')}
+$('installSave').onclick=async()=>{const name=$('appName').value.trim(),file=$('appFile').files[0],iconFile=$('appIcon').files[0];if(!name||!file){notify('نام و فایل HTML را انتخاب کن');return}if(file.size>12*1024*1024){notify('حجم فایل HTML باید کمتر از ۱۲ مگابایت باشد');return}const source=await file.text();if(!/<html|<!doctype/i.test(source)){notify('فایل انتخاب‌شده HTML معتبر نیست');return}let iconData='';if(iconFile){if(iconFile.size>700*1024){notify('حجم آیکون باید کمتر از ۷۰۰ کیلوبایت باشد');return}iconData=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(iconFile)})}const id='webapp_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);const app={id,name,emoji:$('appEmoji').value.trim()||'📱',iconData,installedAt:Date.now()};try{await dbPut({id,html:source});apps.push(app);if(!saveMeta()){apps.pop();await dbDelete(id);return}render();closeOverlay('installOverlay');notify('اپلیکیشن با موفقیت نصب شد ✨')}catch(e){notify('ذخیره اپ ناموفق بود؛ فضای دستگاه را بررسی کن')}}
+$('search').addEventListener('input',render);$('drawerSearch').addEventListener('input',render);
+$('manageBtn').onclick=()=>$('settingsOverlay').style.display='flex';$('drawerBtn').onclick=openDrawer;$('drawerClose').onclick=()=>$('drawer').style.display='none';
+$('homeBtn').onclick=()=>{$('search').value='';render();$('drawer').style.display='none';closeApp()};$('addDock').onclick=openInstall;
+function downloadFile(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500)}
+async function exportBackup(){try{const bundle=[];for(const a of apps){const r=await dbGet(a.id);if(r)bundle.push({...a,html:r.html})}const data={format:'HTML-OS-BACKUP',version:2,createdAt:new Date().toISOString(),apps:bundle};downloadFile(new Blob([JSON.stringify(data)],{type:'application/json'}),'html-os-backup.json');notify('فایل بکاپ آماده شد')}catch(e){notify('ساخت بکاپ ناموفق بود')}}
+async function importBackup(file){try{const data=JSON.parse(await file.text());if(data.format!=='HTML-OS-BACKUP'||!Array.isArray(data.apps))throw Error('invalid');if(!confirm('اپ‌های موجود با محتوای بکاپ جایگزین شوند؟'))return;for(const a of apps)await dbDelete(a.id);apps=[];for(const a of data.apps){if(!a.id||typeof a.html!=='string')continue;await dbPut({id:a.id,html:a.html});apps.push({id:a.id,name:String(a.name||'اپ بدون نام'),emoji:a.emoji||'📱',iconData:a.iconData||'',installedAt:a.installedAt||Date.now()})}saveMeta();render();notify('بازیابی با موفقیت انجام شد')}catch(e){notify('فایل بکاپ معتبر نیست یا قابل بازیابی نیست')}}
+$('backupOut').onclick=exportBackup;$('settingsExport').onclick=exportBackup;$('backupIn').onclick=()=>$('backupFile').click();$('settingsImport').onclick=()=>$('backupFile').click();$('backupFile').onchange=e=>{const f=e.target.files[0];if(f)importBackup(f);e.target.value=''};
+$('settingsInstall').onclick=()=>{closeOverlay('settingsOverlay');openInstall()};$('settingsDrawer').onclick=()=>{closeOverlay('settingsOverlay');openDrawer()};$('clearAll').onclick=async()=>{if(!confirm('تمام اپلیکیشن‌های نصب‌شده حذف شوند؟'))return;for(const a of apps)await dbDelete(a.id);apps=[];saveMeta();render();closeOverlay('settingsOverlay');notify('همه اپ‌ها حذف شدند')};
+function tick(){const d=new Date();$('clockMini').textContent=d.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});$('bigClock').textContent=d.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});$('dateText').textContent=d.toLocaleDateString('fa-IR',{weekday:'long',day:'numeric',month:'long'})}
+async function init(){try{db=await openDB();apps=loadMeta();const valid=[];for(const a of apps){if(await dbGet(a.id))valid.push(a)}apps=valid;saveMeta();render();tick();setInterval(tick,15000)}catch(e){notify('مرورگر از IndexedDB پشتیبانی نمی‌کند')}}
+init();
+})();
+</script>
+</div>
+</body>
+</html>
