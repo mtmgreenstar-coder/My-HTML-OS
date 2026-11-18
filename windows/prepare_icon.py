@@ -13,6 +13,7 @@ if not png.is_file():
 with Image.open(png) as image:
     image.verify()
 
+ico.parent.mkdir(parents=True, exist_ok=True)
 with Image.open(png) as image:
     image.convert("RGBA").save(
         ico,
@@ -20,4 +21,6 @@ with Image.open(png) as image:
         sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64), (96, 96)],
     )
 
-print(f"Validated HTML ({html.stat().st_size} bytes) and logo ({png.stat().st_size} bytes)")
+if not ico.is_file() or ico.stat().st_size < 100:
+    raise SystemExit("Windows ICO generation failed")
+print(f"Validated HTML ({html.stat().st_size} bytes), logo ({png.stat().st_size} bytes), ICO ({ico.stat().st_size} bytes)")
