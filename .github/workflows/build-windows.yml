@@ -33,21 +33,26 @@ jobs:
       - name: Restore
         run: dotnet restore windows/HTML-OS-Windows.csproj
 
-      - name: Publish Windows x64
-        run: dotnet publish windows/HTML-OS-Windows.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=false --output publish/HTML-OS-Windows
+      - name: Publish single-file Windows x64 app
+        run: dotnet publish windows/HTML-OS-Windows.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -p:DebugType=None -p:DebugSymbols=false --output publish/HTML-OS-Windows
 
-      - name: Add instructions
+      - name: Verify single executable output
         shell: pwsh
-        run: Copy-Item windows/README.txt publish/HTML-OS-Windows/README.txt
+        run: |
+          $exe = "publish/HTML-OS-Windows/HTML-OS.exe"
+          if (!(Test-Path $exe)) { throw "HTML-OS.exe was not generated" }
+          $files = Get-ChildItem "publish/HTML-OS-Windows" -File
+          if ($files.Count -ne 1 -or $files[0].Name -ne "HTML-OS.exe") {
+            $files | Format-Table Name, Length
+            throw "Publish output is not a single-file app"
+          }
+          if ((Get-Item $exe).Length -lt 10000000) { throw "Executable is unexpectedly small" }
+          Write-Host "Single-file EXE verified: $((Get-Item $exe).Length) bytes"
 
-      - name: Create portable ZIP
-        shell: pwsh
-        run: Compress-Archive -Path publish/HTML-OS-Windows/* -DestinationPath HTML-OS-Windows-x64.zip
-
-      - name: Upload Windows app
+      - name: Upload single EXE
         uses: actions/upload-artifact@v4
         with:
-          name: HTML-OS-Windows-x64
-          path: HTML-OS-Windows-x64.zip
+          name: HTML-OS-Windows-Single-EXE
+          path: publish/HTML-OS-Windows/HTML-OS.exe
           if-no-files-found: error
           retention-days: 14
