@@ -4,8 +4,8 @@
         android:label="HTML OS"
         android:theme="@android:style/Theme.Material.Light.NoActionBar"
         android:usesCleartextTraffic="false"
-        android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher">
+        android:icon="@drawable/html_os_icon"
+        android:roundIcon="@drawable/html_os_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"
