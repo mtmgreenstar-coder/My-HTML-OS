@@ -14,60 +14,49 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Prepare launcher icons
+
+      - name: Validate launcher icon
         run: |
-          python3 -m pip install --user Pillow
           python3 - <<'PY'
-          from PIL import Image
           from pathlib import Path
-          src = Path("app/src/main/res/mipmap-xxxhdpi/ic_launcher.png")
-          image = Image.open(src).convert("RGBA")
-          densities = {
-              "mipmap-mdpi": 48,
-              "mipmap-hdpi": 72,
-              "mipmap-xhdpi": 96,
-              "mipmap-xxhdpi": 144,
-              "mipmap-xxxhdpi": 192,
-          }
-          res = Path("app/src/main/res")
-          for folder, size in densities.items():
-              target = res / folder / "ic_launcher.png"
-              target.parent.mkdir(parents=True, exist_ok=True)
-              image.resize((size, size), Image.Resampling.LANCZOS).save(target)
-          foreground = res / "drawable-nodpi" / "ic_launcher_foreground.png"
-          foreground.parent.mkdir(parents=True, exist_ok=True)
-          image.save(foreground)
+          import struct
+          import zlib
+
+          icon = Path("app/src/main/res/drawable-nodpi/html_os_icon.png")
+          data = icon.read_bytes()
+          if data[:8] != b"\x89PNG\r\n\x1a\n":
+              raise SystemExit("Launcher icon is not a PNG file")
+          if data[12:16] != b"IHDR":
+              raise SystemExit("Launcher icon has no PNG IHDR header")
+          width, height = struct.unpack(">II", data[16:24])
+          if (width, height) != (96, 96):
+              raise SystemExit(f"Unexpected launcher icon size: {width}x{height}")
+          expected_crc = struct.unpack(">I", data[29:33])[0]
+          actual_crc = zlib.crc32(data[12:29]) & 0xffffffff
+          if expected_crc != actual_crc:
+              raise SystemExit("Launcher icon PNG header checksum is invalid")
+          print(f"Launcher icon OK: {width}x{height}, {len(data)} bytes")
           PY
-          mkdir -p app/src/main/res/mipmap-anydpi-v26
-          cat > app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml <<'XML'
-          <?xml version="1.0" encoding="utf-8"?>
-          <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-              <background android:drawable="@color/ic_launcher_background" />
-              <foreground android:drawable="@drawable/ic_launcher_foreground" />
-          </adaptive-icon>
-          XML
-          mkdir -p app/src/main/res/values
-          cat > app/src/main/res/values/ic_launcher_background.xml <<'XML'
-          <?xml version="1.0" encoding="utf-8"?>
-          <resources>
-              <color name="ic_launcher_background">#020817</color>
-          </resources>
-          XML
+
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
+
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
+
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
         with:
           packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
+
       - name: Build debug APK
         run: gradle --no-daemon assembleDebug
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
